@@ -1,13 +1,13 @@
-package com.example.dz10032022
+package com.example.dz26032022
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.dz26032022.KEY_EDIT_PRODUCT
-import com.example.dz26032022.Product
+import com.example.dz10032022.R
 
 class EditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +21,33 @@ class EditActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.buttonSave)
 
 
-        val product = intent.getParcelableExtra<Product>(KEY_EDIT_PRODUCT) ?:return
+        val product = intent.getParcelableExtra<Product>(KEY_EDIT_PRODUCT) ?: return
+
+        nameEditText.setText(product.name)
+        priceEditText.setText(product.price)
+        quantityEditText.setText(product.productQuantity)
+        qualityEditText.setText(product.quality)
+
+
         button.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(KEY_EDIT_PRODUCT, imageEdit.toString())
-            intent.putExtra(KEY_EDIT_PRODUCT, nameEditText.toString())
-            intent.putExtra(KEY_EDIT_PRODUCT, priceEditText.toString())
-            intent.putExtra(KEY_EDIT_PRODUCT, quantityEditText.toString())
-            intent.putExtra(KEY_EDIT_PRODUCT, qualityEditText.toString())
+            val newEditProduct = Product(
+                nameEditText.text.toString(),
+                priceEditText.text.toString(),
+                quantityEditText.text.toString(),
+                qualityEditText.text.toString(),
+                product.id
+            )
+
+            intent.putExtra(KEY_EDIT_PRODUCT, newEditProduct)
             setResult(RESULT_OK, intent)
             finish()
+            if(product != newEditProduct) {
+                Toast.makeText(this, "Продукт ${product.name} изменен", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Продукт не изменен", Toast.LENGTH_SHORT).show()
+            }
 
         }
-
     }
 }

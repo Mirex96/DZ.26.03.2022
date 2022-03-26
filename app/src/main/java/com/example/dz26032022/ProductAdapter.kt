@@ -12,8 +12,7 @@ import com.example.dz10032022.R
 class ProductAdapter(
     private val onSelect: (Product) -> Unit,
     private val onMore: (Product) -> Unit,
-
-    ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
 
     private var productList = listOf<Product>()
