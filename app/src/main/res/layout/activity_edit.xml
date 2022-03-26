@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity">
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter name:"
+        android:lines="1"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="90dp"/>
+
+    <EditText
+        android:id="@+id/priceEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter price:"
+        android:lines="1"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/nameEditText"
+        app:layout_constraintRight_toRightOf="@+id/nameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+
+    <EditText
+        android:id="@+id/quantityEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter quantity:"
+        android:maxLines="1"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/priceEditText"
+        app:layout_constraintRight_toRightOf="@id/priceEditText"
+        app:layout_constraintTop_toBottomOf="@+id/priceEditText" />
+
+    <EditText
+        android:id="@+id/qualityEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter quality:"
+        android:lines="1"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/quantityEditText"
+        app:layout_constraintRight_toRightOf="@id/quantityEditText"
+        app:layout_constraintTop_toBottomOf="@+id/quantityEditText" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/nameEditText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_product_edit"
+        />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="save"
+        app:layout_constraintLeft_toLeftOf="@+id/qualityEditText"
+        app:layout_constraintRight_toRightOf="@+id/qualityEditText"
+        app:layout_constraintTop_toBottomOf="@+id/qualityEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
