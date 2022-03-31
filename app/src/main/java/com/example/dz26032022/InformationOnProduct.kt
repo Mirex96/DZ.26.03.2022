@@ -13,7 +13,7 @@ class InformationOnProduct : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_information_on_product)
 
-        val imageInformation = findViewById<View>(R.id.imageInformation)
+
         val informationProduct = findViewById<TextView>(R.id.informationProduct)
         val button = findViewById<Button>(R.id.buttonBack)
 

@@ -1,5 +1,6 @@
 package com.example.dz26032022
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -18,9 +19,12 @@ import kotlinx.android.parcel.Parcelize
 const val KEY_PRODUCT = "KEY_PRODUCT"
 const val KEY_EDIT_PRODUCT = "KEY_EDIT_PRODUCT"
 const val KEY_ADD_PRODUCT = "KEY_ADD_PRODUCT"
-
 const val REQUEST_ADD = 101
 const val REQUEST_EDIT = 100
+const val SP_NAME = "User_SP"
+const val KEY_SP_PRODUCT = "KEY_SP_PRODUCT"
+
+
 
 
 @Parcelize
@@ -36,8 +40,7 @@ data class Product(
 
 class MainActivity : AppCompatActivity() {
 
-
-
+    private val sharedPreferences by lazy { getSharedPreferences(SP_NAME, Context.MODE_PRIVATE) }
     private val defaultProductList by lazy {
         mutableListOf(
             Product("Свекла", "20 руб.", "100 штук", "Хорошее", generateId()),
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private val adapter = ProductAdapter(::onSelect, ::onMore)
+    private val adapter = ProductAdapter(::onSelect, ::onMore, ::onSave)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,16 +78,33 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+
         val add = findViewById<View>(R.id.onAdd)
-        add.setOnClickListener() {
+        add.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
             startActivityForResult(intent, REQUEST_ADD)
-
         }
+
         val productRecycler = findViewById<RecyclerView>(R.id.productsList)
         productRecycler.adapter = adapter
         adapter.setData(defaultProductList)
+
+        val saveProductName = findViewById<View>(R.id.saveProductName)
+        saveProductName.setOnClickListener {
+
+            val intent = Intent(this, SaveProductNameActivity::class.java)
+            startActivity(intent)
+            val product = sharedPreferences.getString(KEY_SP_PRODUCT, null)
+            Toast.makeText(this, "Продукт $product в корзине", LENGTH_SHORT).show()
+        }
+
+
     }
+
+
+
 
     private fun onSelect(product: Product) {
         val intent = Intent(this, InformationOnProduct::class.java)
@@ -99,45 +119,42 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Выберите опцию")
             .setPositiveButton(
                 "Удалить"
-            ) { p0, p1 ->
+            ) { _, _ ->
                 defaultProductList.remove(product)
                 adapter.setData(defaultProductList)
                 Toast.makeText(this, "Продукт ${product.name} удалён", LENGTH_SHORT).show()
-
             }
-
             .setNegativeButton("Редактировать")
-            { p0, p1 ->
+            { _, _ ->
                 val intent = Intent(this, EditActivity::class.java)
                 intent.putExtra(KEY_EDIT_PRODUCT, product)
                 startActivityForResult(intent, REQUEST_EDIT)
-
-
             }
-
             .setNeutralButton("Отмена")
-            { p0, p1 ->
+            { _, _ ->
                 Toast.makeText(this, "Диалог закрыт", LENGTH_SHORT).show()
             }
-
-
             .show()
+    }
+
+    private fun onSave(product: Product) {
+        sharedPreferences.edit()
+            .putString(KEY_SP_PRODUCT, product.name)
+            .apply()
+        Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
     }
 
     //
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK && data != null) {
-            val editProduct = data.getParcelableExtra<Product>(KEY_EDIT_PRODUCT) ?:return
-           val productInList = defaultProductList.find { listProduct ->
+            val editProduct = data.getParcelableExtra<Product>(KEY_EDIT_PRODUCT) ?: return
+            val productInList = defaultProductList.find { listProduct ->
                 listProduct.id == editProduct.id
             }
-
             val position = defaultProductList.indexOf(productInList)
-            defaultProductList.set(position, editProduct)
+            defaultProductList[position] = editProduct
             adapter.setData(defaultProductList)
-
-
 
 
         } else if (requestCode == REQUEST_ADD && resultCode == RESULT_OK && data != null) {
@@ -148,10 +165,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
     }
-
-
 }
 
 

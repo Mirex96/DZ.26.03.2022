@@ -42,6 +42,8 @@ class EditActivity : AppCompatActivity() {
             intent.putExtra(KEY_EDIT_PRODUCT, newEditProduct)
             setResult(RESULT_OK, intent)
             finish()
+
+
             if(product != newEditProduct) {
                 Toast.makeText(this, "Продукт ${product.name} изменен", Toast.LENGTH_SHORT).show()
             } else {

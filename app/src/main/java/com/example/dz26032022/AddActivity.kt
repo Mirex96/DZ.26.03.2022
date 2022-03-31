@@ -37,9 +37,8 @@ class AddActivity : AppCompatActivity() {
             intent.putExtra(KEY_ADD_PRODUCT, product)
             setResult(RESULT_OK, intent)
             finish()
+            Toast.makeText(this, "Продукт ${product.name} добавлен", LENGTH_SHORT).show()
 
         }
-
-
     }
 }
