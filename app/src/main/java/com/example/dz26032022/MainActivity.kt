@@ -76,11 +76,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
-
-
-
         val add = findViewById<View>(R.id.onAdd)
         add.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
@@ -102,8 +97,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
 
 
     private fun onSelect(product: Product) {
