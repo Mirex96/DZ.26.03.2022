@@ -44,7 +44,7 @@ class EditActivity : AppCompatActivity() {
             finish()
 
 
-            if(product != newEditProduct) {
+            if (product != newEditProduct) {
                 Toast.makeText(this, "Продукт ${product.name} изменен", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Продукт не изменен", Toast.LENGTH_SHORT).show()

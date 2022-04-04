@@ -25,8 +25,6 @@ const val SP_NAME = "User_SP"
 const val KEY_SP_PRODUCT = "KEY_SP_PRODUCT"
 
 
-
-
 @Parcelize
 data class Product(
     val name: String,
@@ -68,12 +66,11 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private val adapter = ProductAdapter(::onSelect, ::onMore, ::onSave)
+    private val adapter = ProductAdapter(::onSelect, ::onMore, ::onSave, ::onClone)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
 
         val add = findViewById<View>(R.id.onAdd)
@@ -91,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this, SaveProductNameActivity::class.java)
             startActivity(intent)
+
             val product = sharedPreferences.getString(KEY_SP_PRODUCT, null)
             Toast.makeText(this, "Продукт $product в корзине", LENGTH_SHORT).show()
         }
@@ -103,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, InformationOnProduct::class.java)
         intent.putExtra(KEY_PRODUCT, product)
         startActivity(intent)
+
     }
 
     private fun onMore(product: Product) {
@@ -137,7 +136,12 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
     }
 
-    //
+    private fun onClone(product: Product) {
+        defaultProductList.add(product)
+        adapter.setData(defaultProductList)
+        Toast.makeText(this, "Продукт ${product.name} клонирован", LENGTH_SHORT).show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK && data != null) {

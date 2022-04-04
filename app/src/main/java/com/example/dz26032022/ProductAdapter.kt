@@ -12,7 +12,8 @@ import com.example.dz10032022.R
 class ProductAdapter(
     private val onSelect: (Product) -> Unit,
     private val onMore: (Product) -> Unit,
-    private val onSave: (Product) -> Unit
+    private val onSave: (Product) -> Unit,
+    private val onClone: (Product) -> Unit,
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
 
@@ -57,6 +58,10 @@ class ProductAdapter(
 
             itemView.findViewById<View>(R.id.onSave).setOnClickListener {
                 onSave(product)
+            }
+
+            itemView.findViewById<View>(R.id.onClone).setOnClickListener {
+                onClone(product)
             }
 
 

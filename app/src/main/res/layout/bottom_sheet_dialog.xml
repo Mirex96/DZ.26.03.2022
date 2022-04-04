@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="16dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageBottomSheet"
+            android:layout_width="80dp"
+            android:layout_height="95dp"
+            android:src="@drawable/ic_bottom_sheet_product" />
+
+        <Button
+            android:id="@+id/editButtonSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageBottomSheet"
+            android:text="Edit"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/remoteButtonSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editButtonSheet"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageBottomSheet"
+            android:text="Remote"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/cloneButtonSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="65dp"
+            android:layout_toEndOf="@+id/editButtonSheet"
+            android:text="Clone"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/saveButtonSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cloneButtonSheet"
+            android:layout_marginStart="65dp"
+            android:layout_toEndOf="@+id/remoteButtonSheet"
+            android:text="save"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/exitButtonSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageBottomSheet"
+            android:text="Exit" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

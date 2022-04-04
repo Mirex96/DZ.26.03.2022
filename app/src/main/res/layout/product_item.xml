@@ -39,6 +39,16 @@
         app:layout_constraintRight_toLeftOf="@+id/onMore"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/onClone"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_clone"
+        app:layout_constraintLeft_toLeftOf="@+id/onSave"
+        app:layout_constraintRight_toRightOf="@+id/onMore"
+        app:layout_constraintTop_toBottomOf="@+id/onSave" />
+
 
     <TextView
         android:id="@+id/name"
