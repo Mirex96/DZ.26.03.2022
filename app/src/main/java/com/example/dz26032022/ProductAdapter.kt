@@ -35,6 +35,7 @@ class ProductAdapter(
     fun setData(productList: List<Product>) {
         this.productList = productList
         notifyItemRemoved(productList.size)
+
     }
 
     fun moved(productList: List<Product>, position: Int, position2: Int) {
@@ -46,8 +47,6 @@ class ProductAdapter(
         this.productList = productList
         notifyItemRemoved(productList.size)
     }
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

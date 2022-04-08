@@ -133,6 +133,26 @@ class MainActivity : AppCompatActivity() {
                 ProductPreferences.name = product.name
                 Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
             }
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_NUMBER_1, this) {_, bundle ->
+                bundle.getString(BUNDLE_KEY_NUMBER_1)
+
+
+            }
+
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_NUMBER_2, this) {_, bundle ->
+                bundle.getString(BUNDLE_KEY_NUMBER_2)
+
+
+            }
+
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_APPLY, this) {_, bundle ->
+                bundle.getString(BUNDLE_KEY_APPLY)
+
+
+            }
 
 
 
