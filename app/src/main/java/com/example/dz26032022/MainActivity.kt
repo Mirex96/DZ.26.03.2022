@@ -1,16 +1,13 @@
 package com.example.dz26032022
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dz10032022.InformationOnProduct
 import com.example.dz10032022.R
 import com.example.dz26032022.IdGenerator.generateId
 import kotlinx.android.parcel.Parcelize
@@ -37,8 +34,6 @@ data class Product(
 
 
 class MainActivity : AppCompatActivity() {
-
-    private val sharedPreferences by lazy { getSharedPreferences(SP_NAME, Context.MODE_PRIVATE) }
     private val defaultProductList by lazy {
         mutableListOf(
             Product("Свекла", "20 руб.", "100 штук", "Хорошее", generateId()),
@@ -66,11 +61,12 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private val adapter = ProductAdapter(::onSelect, ::onMore, ::onSave, ::onClone)
+    private val adapter = ProductAdapter(::onSelect, ::onMore,::onReplacement)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ProductPreferences.init(this)
 
 
         val add = findViewById<View>(R.id.onAdd)
@@ -89,10 +85,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SaveProductNameActivity::class.java)
             startActivity(intent)
 
-            val product = sharedPreferences.getString(KEY_SP_PRODUCT, null)
-            Toast.makeText(this, "Продукт $product в корзине", LENGTH_SHORT).show()
         }
 
+
+
+// Сделать , чтобы при открытии приложения показывало последний сохраненный в корзину товар !!!!!!!!
 
     }
 
@@ -105,41 +102,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onMore(product: Product) {
-        AlertDialog.Builder(this)
-            .setCancelable(false)
-            .setIcon(R.mipmap.ic_launcher)
-            .setTitle("Выберите опцию")
-            .setPositiveButton(
-                "Удалить"
-            ) { _, _ ->
+        BottomSheetDialog.TAG
+        BottomSheetDialog.show(supportFragmentManager)
+
+
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_REMOTE, this) { _, bundle ->
+                bundle.getString(BUNDLE_KEY_REMOTE)
                 defaultProductList.remove(product)
-                adapter.setData(defaultProductList)
-                Toast.makeText(this, "Продукт ${product.name} удалён", LENGTH_SHORT).show()
+                adapter.neMoved(defaultProductList)
+                Toast.makeText(this, "Продукт ${product.name} удален", LENGTH_SHORT).show()
             }
-            .setNegativeButton("Редактировать")
-            { _, _ ->
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_EDIT, this) {_, bundle ->
+                bundle.getString(BUNDLE_KEY_EDIT)
                 val intent = Intent(this, EditActivity::class.java)
                 intent.putExtra(KEY_EDIT_PRODUCT, product)
                 startActivityForResult(intent, REQUEST_EDIT)
             }
-            .setNeutralButton("Отмена")
-            { _, _ ->
-                Toast.makeText(this, "Диалог закрыт", LENGTH_SHORT).show()
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_CLONE, this) {_,bundle ->
+                bundle.getString(BUNDLE_KEY_CLONE)
+                defaultProductList.add(product)
+                adapter.setData(defaultProductList)
+                Toast.makeText(this, "Продукт ${product.name} клонирован", LENGTH_SHORT).show()
             }
-            .show()
+        supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY_SAVE, this) {_, bundle ->
+                bundle.getString(BUNDLE_KEY_SAVE)
+                ProductPreferences.name = product.name
+                Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
+            }
+
+
+
     }
 
-    private fun onSave(product: Product) {
-        sharedPreferences.edit()
-            .putString(KEY_SP_PRODUCT, product.name)
-            .apply()
-        Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
-    }
+    private fun onReplacement(product: Product) {
+        val firstProduct = defaultProductList[0]
+        val lastProduct = defaultProductList[3]
+        defaultProductList[0] = lastProduct
+        defaultProductList[3] = firstProduct
+        adapter.moved(defaultProductList, 0, 3)
 
-    private fun onClone(product: Product) {
-        defaultProductList.add(product)
-        adapter.setData(defaultProductList)
-        Toast.makeText(this, "Продукт ${product.name} клонирован", LENGTH_SHORT).show()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

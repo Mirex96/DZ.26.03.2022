@@ -1,12 +1,11 @@
-package com.example.dz10032022
+package com.example.dz26032022
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+
 import android.widget.Button
 import android.widget.TextView
-import com.example.dz26032022.KEY_PRODUCT
-import com.example.dz26032022.Product
+import com.example.dz10032022.R
 
 class InformationOnProduct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

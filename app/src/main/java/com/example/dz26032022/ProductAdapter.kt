@@ -4,24 +4,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+
+
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dz10032022.R
 
+class DiffUtil : DiffUtil.ItemCallback<Product>() {
+    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem == newItem
+    }
+}
 
 class ProductAdapter(
     private val onSelect: (Product) -> Unit,
     private val onMore: (Product) -> Unit,
-    private val onSave: (Product) -> Unit,
-    private val onClone: (Product) -> Unit,
-) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    private val onReplacement: (Product) -> Unit
+) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffUtil()) {
 
 
     private var productList = listOf<Product>()
+
+
     fun setData(productList: List<Product>) {
         this.productList = productList
-        notifyDataSetChanged()
+        notifyItemRemoved(productList.size)
     }
+
+    fun moved(productList: List<Product>, position: Int, position2: Int) {
+        this.productList = productList
+        notifyItemMoved(position, position2)
+    }
+
+    fun neMoved(productList: List<Product>) {
+        this.productList = productList
+        notifyItemRemoved(productList.size)
+    }
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -56,12 +82,8 @@ class ProductAdapter(
                 onMore(product)
             }
 
-            itemView.findViewById<View>(R.id.onSave).setOnClickListener {
-                onSave(product)
-            }
-
-            itemView.findViewById<View>(R.id.onClone).setOnClickListener {
-                onClone(product)
+            itemView.findViewById<View>(R.id.onReplacement).setOnClickListener {
+                onReplacement(product)
             }
 
 
@@ -69,4 +91,5 @@ class ProductAdapter(
 
 
     }
+
 }

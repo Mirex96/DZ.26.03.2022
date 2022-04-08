@@ -11,7 +11,10 @@ class SaveProductNameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_product_name)
 
+
         val saveNameProduct = findViewById<TextView>(R.id.nameSaveInformation)
+
+        saveNameProduct.text = ProductPreferences.name
         val button = findViewById<Button>(R.id.buttonBackSaveName)
         button.setOnClickListener {
             finish()

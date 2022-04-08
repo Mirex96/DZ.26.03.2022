@@ -19,7 +19,7 @@
             android:name="com.example.dz26032022.EditActivity"
             android:exported="false" />
         <activity
-            android:name=".InformationOnProduct"
+            android:name="com.example.dz26032022.InformationOnProduct"
             android:exported="false" />
         <activity
             android:name=".EditProductActivity"

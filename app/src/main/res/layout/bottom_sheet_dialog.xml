@@ -14,16 +14,19 @@
             android:id="@+id/imageBottomSheet"
             android:layout_width="80dp"
             android:layout_height="95dp"
-            android:src="@drawable/ic_bottom_sheet_product" />
+            android:layout_marginStart="3dp"
+            android:background="@drawable/ic_bottom_sheet_product" />
 
         <Button
             android:id="@+id/editButtonSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/imageBottomSheet"
-            android:text="Edit"
-            android:textAllCaps="false" />
+            android:text="edit"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/remoteButtonSheet"
@@ -31,35 +34,83 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/editButtonSheet"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/imageBottomSheet"
-            android:text="Remote"
-            android:textAllCaps="false" />
+            android:text="remote"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/cloneButtonSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/editButtonSheet"
-            android:text="Clone"
-            android:textAllCaps="false" />
+            android:text="clone"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/saveButtonSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cloneButtonSheet"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/remoteButtonSheet"
             android:text="save"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/exitButtonSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageBottomSheet"
-            android:text="Exit" />
+            android:layout_marginTop="30dp"
+            android:text="Exit"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/cloneButtonSheet"
+            android:text="Изменить позицию:"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text1"
+            android:layout_alignLeft="@+id/text1"
+            android:hint="Введите номер:"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText1"
+            android:layout_alignLeft="@+id/editText1"
+            android:hint="Введите номер:"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText2"
+            android:layout_alignLeft="@+id/editText2"
+            android:text="apply"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
 
     </RelativeLayout>
