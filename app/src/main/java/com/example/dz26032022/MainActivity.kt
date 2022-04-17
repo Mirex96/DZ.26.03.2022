@@ -9,6 +9,7 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dz10032022.R
+import com.example.dz26032022.BottomSheetDialogAction.*
 import com.example.dz26032022.IdGenerator.generateId
 import kotlinx.android.parcel.Parcelize
 
@@ -61,12 +62,14 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private val adapter = ProductAdapter(::onSelect, ::onMore,::onReplacement)
+    private val adapter = ProductAdapter(::onSelect, ::onMore)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ProductPreferences.init(this)
+        Toast.makeText(this, "Последний товар в корзине: ${ProductPreferences.name}", LENGTH_SHORT)
+            .show()
 
 
         val add = findViewById<View>(R.id.onAdd)
@@ -87,12 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-
-// Сделать , чтобы при открытии приложения показывало последний сохраненный в корзину товар !!!!!!!!
-
     }
-
 
     private fun onSelect(product: Product) {
         val intent = Intent(this, InformationOnProduct::class.java)
@@ -102,69 +100,63 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onMore(product: Product) {
-        BottomSheetDialog.TAG
         BottomSheetDialog.show(supportFragmentManager)
-
-
         supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_REMOTE, this) { _, bundle ->
-                bundle.getString(BUNDLE_KEY_REMOTE)
-                defaultProductList.remove(product)
-                adapter.neMoved(defaultProductList)
-                Toast.makeText(this, "Продукт ${product.name} удален", LENGTH_SHORT).show()
+            .setFragmentResultListener(REQUEST_KEY_BS, this) { _, bundle ->
+                val action =
+                    bundle.getSerializable(BUNDLE_KEY_ACTION_TYPE) as BottomSheetDialogAction
+                when (action) {
+                    CLONE -> {
+                        clone(product)
+                    }
+                    SAVE -> {
+                        save(product)
+                    }
+                    EDIT -> {
+                        edit(product)
+                    }
+                    REMOVE -> {
+                        remove(product)
+                    }
+                    POSITION_SWAP -> {
+                        val pos1 = bundle.getString(BUNDLE_KEY_POS1)?.toInt()
+                        val pos2 = bundle.getString(BUNDLE_KEY_POS2)?.toInt()
+//                        ????????????????????????????????????????????????????????
+                    }
+                }
             }
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_EDIT, this) {_, bundle ->
-                bundle.getString(BUNDLE_KEY_EDIT)
-                val intent = Intent(this, EditActivity::class.java)
-                intent.putExtra(KEY_EDIT_PRODUCT, product)
-                startActivityForResult(intent, REQUEST_EDIT)
-            }
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_CLONE, this) {_,bundle ->
-                bundle.getString(BUNDLE_KEY_CLONE)
-                defaultProductList.add(product)
-                adapter.setData(defaultProductList)
-                Toast.makeText(this, "Продукт ${product.name} клонирован", LENGTH_SHORT).show()
-            }
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_SAVE, this) {_, bundle ->
-                bundle.getString(BUNDLE_KEY_SAVE)
-                ProductPreferences.name = product.name
-                Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
-            }
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_NUMBER_1, this) {_, bundle ->
-                bundle.getString(BUNDLE_KEY_NUMBER_1)
-
-
-            }
-
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_NUMBER_2, this) {_, bundle ->
-                bundle.getString(BUNDLE_KEY_NUMBER_2)
-
-
-            }
-
-        supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY_APPLY, this) {_, bundle ->
-                bundle.getString(BUNDLE_KEY_APPLY)
-
-
-            }
-
-
 
     }
 
-    private fun onReplacement(product: Product) {
-        val firstProduct = defaultProductList[0]
-        val lastProduct = defaultProductList[3]
-        defaultProductList[0] = lastProduct
-        defaultProductList[3] = firstProduct
-        adapter.moved(defaultProductList, 0, 3)
+    private fun clone(product: Product) {
+        defaultProductList.add(product)
+        adapter.setData(defaultProductList)
+        Toast.makeText(this, "Продукт ${product.name} клонирован", LENGTH_SHORT).show()
+    }
 
+    private fun save(product: Product) {
+        ProductPreferences.name = product.name
+        Toast.makeText(this, "Продукт ${product.name} сохранен", LENGTH_SHORT).show()
+    }
+
+    private fun edit(product: Product) {
+        val intent = Intent(this, EditActivity::class.java)
+        intent.putExtra(KEY_EDIT_PRODUCT, product)
+        startActivityForResult(intent, REQUEST_EDIT)
+    }
+
+    private fun remove(product: Product) {
+        defaultProductList.remove(product)
+        adapter.neMoved(defaultProductList)
+        Toast.makeText(this, "Продукт ${product.name} удален", LENGTH_SHORT).show()
+    }
+
+    private fun onReplacement(pos1: Int, pos2: Int) {
+        val firstProduct = defaultProductList[pos1]
+        val lastProduct = defaultProductList[pos2]
+        defaultProductList[pos1] = lastProduct
+        defaultProductList[pos2] = firstProduct
+        adapter.setData(defaultProductList)
 
     }
 
@@ -201,3 +193,5 @@ class MainActivity : AppCompatActivity() {
 //+ Отображение деталей конкретного товара
 //+ Удаление товара из списка товаров
 //+ Изменение данных уже существующего товара
+//+ BottomSheetFragment
+//+ Переделать product_item  в CustomView

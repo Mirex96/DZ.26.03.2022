@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 
+
 object ProductPreferences {
     private lateinit var sharedPreferences: SharedPreferences
 

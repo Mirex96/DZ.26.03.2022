@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-
-
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -25,7 +23,6 @@ class DiffUtil : DiffUtil.ItemCallback<Product>() {
 class ProductAdapter(
     private val onSelect: (Product) -> Unit,
     private val onMore: (Product) -> Unit,
-    private val onReplacement: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffUtil()) {
 
 
@@ -81,14 +78,6 @@ class ProductAdapter(
                 onMore(product)
             }
 
-            itemView.findViewById<View>(R.id.onReplacement).setOnClickListener {
-                onReplacement(product)
-            }
-
-
         }
-
-
     }
-
 }

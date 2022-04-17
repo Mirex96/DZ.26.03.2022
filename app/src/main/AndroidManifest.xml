@@ -9,31 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DZ26032022">
+
         <activity
             android:name="com.example.dz26032022.SaveProductNameActivity"
             android:exported="false" />
         <activity
+
             android:name="com.example.dz26032022.AddActivity"
             android:exported="false" />
         <activity
+
             android:name="com.example.dz26032022.EditActivity"
             android:exported="false" />
         <activity
+
             android:name="com.example.dz26032022.InformationOnProduct"
             android:exported="false" />
         <activity
-            android:name=".EditProductActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductInformation"
-            android:exported="false" />
-        <activity
             android:name="com.example.dz26032022.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
     </application>

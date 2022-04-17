@@ -12,23 +12,23 @@ import androidx.fragment.app.setFragmentResult
 import com.example.dz10032022.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-const val REQUEST_KEY_REMOTE = "REQUEST_KEY_REMOTE"
-const val BUNDLE_KEY_REMOTE = "BUNDLE_KEY_REMOTE"
-const val REQUEST_KEY_EDIT = "REQUEST_KEY_EDIT"
-const val BUNDLE_KEY_EDIT = "BUNDLE_KEY_EDIT"
-const val REQUEST_KEY_CLONE = "REQUEST_KEY_CLONE"
-const val BUNDLE_KEY_CLONE = "BUNDLE_KEY_CLONE"
-const val REQUEST_KEY_SAVE = "REQUEST_KEY_SAVE"
-const val BUNDLE_KEY_SAVE = "BUNDLE_KEY_SAVE"
-const val REQUEST_KEY_NUMBER_1 = "REQUEST_KEY_NUMBER_1"
-const val BUNDLE_KEY_NUMBER_1 = "BUNDLE_KEY_NUMBER_1"
-const val REQUEST_KEY_NUMBER_2 = "REQUEST_KEY_NUMBER_2"
-const val BUNDLE_KEY_NUMBER_2 = "BUNDLE_KEY_NUMBER_2"
-const val REQUEST_KEY_APPLY = "REQUEST_KEY_APPLY"
-const val BUNDLE_KEY_APPLY = "BUNDLE_KEY_APPLY"
+
+const val REQUEST_KEY_BS = "REQUEST_KEY_BS"
+const val BUNDLE_KEY_ACTION_TYPE = "BottomSheetDialogAction"
+const val BUNDLE_KEY_POS1 = "BUNDLE_KEY_POS1"
+const val BUNDLE_KEY_POS2 = "BUNDLE_KEY_POS2"
 
 
-class BottomSheetDialog: BottomSheetDialogFragment() {
+enum class BottomSheetDialogAction {
+    CLONE,
+    SAVE,
+    EDIT,
+    REMOVE,
+    POSITION_SWAP
+}
+
+
+class BottomSheetDialog : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,50 +40,48 @@ class BottomSheetDialog: BottomSheetDialogFragment() {
     override fun getTheme() = R.style.AppBottomSheetDialogTheme
 
 
+    private fun onClickReturnResult(action: BottomSheetDialogAction) {
+        setFragmentResult(REQUEST_KEY_BS, bundleOf(BUNDLE_KEY_ACTION_TYPE to action))
+        dismiss()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val editText1 = view.findViewById<EditText>(R.id.editText1)
+        val editText2 = view.findViewById<EditText>(R.id.editText2)
 
         view.findViewById<Button>(R.id.remoteButtonSheet).setOnClickListener {
-            val remote = "remote"
-            setFragmentResult(REQUEST_KEY_REMOTE, bundleOf(BUNDLE_KEY_REMOTE to remote))
+            onClickReturnResult(BottomSheetDialogAction.REMOVE)
             dismiss()
         }
 
         view.findViewById<Button>(R.id.editButtonSheet).setOnClickListener {
-            val edit = "edit"
-            setFragmentResult(REQUEST_KEY_EDIT, bundleOf(BUNDLE_KEY_EDIT to edit ))
+            onClickReturnResult(BottomSheetDialogAction.EDIT)
             dismiss()
         }
 
         view.findViewById<Button>(R.id.cloneButtonSheet).setOnClickListener {
-            val clone = "clone"
-            setFragmentResult(REQUEST_KEY_CLONE, bundleOf(BUNDLE_KEY_CLONE to clone))
+            onClickReturnResult(BottomSheetDialogAction.CLONE)
             dismiss()
         }
         view.findViewById<Button>(R.id.saveButtonSheet).setOnClickListener {
-            val save = "save"
-            setFragmentResult(REQUEST_KEY_SAVE, bundleOf(BUNDLE_KEY_SAVE to save))
+            onClickReturnResult(BottomSheetDialogAction.SAVE)
             dismiss()
         }
 
-        view.findViewById<EditText>(R.id.editText1).setOnClickListener {
-            val number1 = "number1"
-            setFragmentResult(REQUEST_KEY_NUMBER_1, bundleOf(BUNDLE_KEY_NUMBER_1 to number1))
-
-        }
-
-        view.findViewById<EditText>(R.id.editText2).setOnClickListener {
-            val number2 = "number2"
-            setFragmentResult(REQUEST_KEY_NUMBER_2, bundleOf(BUNDLE_KEY_NUMBER_2 to number2))
-
-        }
 
         view.findViewById<Button>(R.id.applyButton).setOnClickListener {
-            val apply = "apply"
-            setFragmentResult(REQUEST_KEY_APPLY, bundleOf(BUNDLE_KEY_APPLY to apply))
+            setFragmentResult(
+                REQUEST_KEY_BS, bundleOf(
+                    BUNDLE_KEY_ACTION_TYPE to BottomSheetDialogAction.POSITION_SWAP,
+                    BUNDLE_KEY_POS1 to editText1.text.toString(),
+                    BUNDLE_KEY_POS2 to editText2.text.toString()
+                )
+            )
             dismiss()
         }
+
 
         view.findViewById<Button>(R.id.exitButtonSheet).setOnClickListener {
             dismiss()
@@ -93,16 +91,13 @@ class BottomSheetDialog: BottomSheetDialogFragment() {
     }
 
 
-
-
-
-
     companion object {
         const val TAG = "DIALOG"
 
-        fun show (fragmentManager: FragmentManager) {
-            BottomSheetDialog()
-                .show(fragmentManager, TAG)
+        fun show(fragmentManager: FragmentManager) {
+            if (fragmentManager.findFragmentByTag(TAG) == null)
+                BottomSheetDialog()
+                    .show(fragmentManager, TAG)
         }
     }
 

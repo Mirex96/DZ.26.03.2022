@@ -11,13 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <ImageView
         android:id="@+id/saveProductName"
-        android:layout_width="40dp"
+        android:layout_width="20dp"
         android:layout_height="30dp"
         android:layout_marginBottom="15dp"
         android:background="?android:selectableItemBackground"
@@ -29,7 +27,7 @@
 
     <ImageView
         android:id="@+id/onAdd"
-        android:layout_width="40dp"
+        android:layout_width="20dp"
         android:layout_height="30dp"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_add"

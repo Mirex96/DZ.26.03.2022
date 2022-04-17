@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="CustomViewLayout">
+        <attr name="image" format="reference" />
+    </declare-styleable>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
 
